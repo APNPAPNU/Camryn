@@ -2,40 +2,67 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Valentine?</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Top Secret</title>
+<meta property="og:title" content="Top Secret">
+<meta property="og:description" content="A special secret message awaits! 💌">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://example.com/secret-heart.jpg"> <!-- Replace with an actual image URL if available -->
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap');
+
   body {
     margin: 0;
     background: radial-gradient(circle at top, #ffb3c6, #ff5d8f);
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     text-align: center;
     overflow: hidden;
     color: #7a003c;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    box-sizing: border-box;
   }
 
   h1 {
-    font-size: 3em;
-    margin-top: 80px;
+    font-family: 'Pacifico', cursive;
+    font-size: 2.5em;
+    margin-top: 60px;
+    max-width: 90%;
+    color: #ff2f75;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
   }
 
   button {
-    font-size: 1.4em;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
     padding: 15px 30px;
     margin: 15px;
     border: none;
-    border-radius: 14px;
+    border-radius: 20px;
     cursor: pointer;
+    touch-action: manipulation;
+    min-width: 150px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+
+  button:hover {
+    transform: scale(1.05);
   }
 
   #good, #yes {
-    background: #ff2f75;
+    background: linear-gradient(#ff2f75, #ff5d8f);
     color: white;
   }
 
   #bad, #no {
-    background: #444;
+    background: linear-gradient(#444, #666);
     color: white;
-    position: relative; /* Changed for bad button, but can adjust */
+    position: relative;
   }
 
   #no {
@@ -43,7 +70,7 @@
   }
 
   #record {
-    background: #d60000;
+    background: linear-gradient(#d60000, #ff2f75);
     color: white;
   }
 
@@ -58,31 +85,40 @@
   }
 
   #message {
-    font-size: 1.7em;
-    margin-top: 30px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.4em;
+    margin-top: 20px;
     padding: 0 20px;
+    max-width: 90%;
+    line-height: 1.5;
+    color: #7a003c;
   }
 
   input {
+    font-family: 'Roboto', sans-serif;
     font-size: 1.2em;
     padding: 10px;
-    border-radius: 8px;
-    border: none;
+    border-radius: 12px;
+    border: 2px solid #ff2f75;
+    width: 80%;
+    max-width: 300px;
+    background: rgba(255,255,255,0.8);
   }
 
   #progress {
-    width: 70%;
+    width: 80%;
     height: 20px;
     background: #ffd1e1;
     border-radius: 10px;
     margin: 20px auto;
     overflow: hidden;
+    border: 2px solid #ff2f75;
   }
 
   #bar {
     height: 100%;
     width: 0%;
-    background: #ff2f75;
+    background: linear-gradient(#ff2f75, #ff5d8f);
   }
 
   .heart {
@@ -94,22 +130,44 @@
 
   @keyframes float {
     from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-800px); opacity: 0; }
+    to { transform: translateY(-100vh); opacity: 0; }
+  }
+
+  @media (max-width: 828px) {
+    h1 {
+      font-size: 2em;
+      margin-top: 40px;
+    }
+
+    button {
+      font-size: 1.1em;
+      padding: 12px 24px;
+      min-width: 140px;
+    }
+
+    #message {
+      font-size: 1.2em;
+    }
+
+    input {
+      font-size: 1.1em;
+      width: 90%;
+    }
   }
 </style>
 </head>
 <body>
 
-<h1 id="title">Have you been a good girl or a bad girl?</h1>
+<h1 id="title">Have you been a good girl or a bad girl? 💕</h1>
 
 <div id="goodBadButtons">
-  <button id="good" onclick="goodClicked()">Good girl</button>
-  <button id="bad" onclick="badClicked()">Bad girl</button>
+  <button id="good" onclick="goodClicked()">Good girl ✨</button>
+  <button id="bad" onclick="badClicked()">Bad girl 😈</button>
 </div>
 
 <div id="buttons" style="display: none;">
-  <button id="yes" onclick="yesClicked()">Yes</button>
-  <button id="no" onmouseover="moveNo()">No</button>
+  <button id="yes" onclick="yesClicked()">Yes 💖</button>
+  <button id="no" onmouseover="moveNo()" ontouchstart="moveNo()">No 🙅‍♀️</button>
 </div>
 
 <div id="message"></div>
@@ -123,13 +181,15 @@ function goodClicked() {
 }
 
 function badClicked() {
-  document.getElementById("message").innerHTML = "Access denied. Try again.";
+  document.getElementById("message").innerHTML = "Access denied. Try again. 😉";
 }
 
 function moveNo() {
   const no = document.getElementById("no");
-  no.style.left = Math.random() * (window.innerWidth - 100) + "px";
-  no.style.top = Math.random() * (window.innerHeight - 100) + "px";
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  no.style.left = Math.random() * (vw - 100) + "px";
+  no.style.top = Math.random() * (vh - 100) + "px";
 }
 
 function yesClicked() {
@@ -137,7 +197,7 @@ function yesClicked() {
   document.getElementById("message").innerHTML = `
     Ok 💕<br><br>
     Hold the button and say:<br>
-    <strong>Yes Jon, I will be your Valentine</strong><br><br>
+    <strong>Yes Jon, I will be your Valentine</strong> 🥰<br><br>
     <button id="record"
       onmousedown="startRec()"
       onmouseup="stopRec()"
@@ -151,15 +211,15 @@ function yesClicked() {
 function startRec() {
   const r = document.getElementById("record");
   r.classList.add("recording");
-  r.innerText = "Recording…";
+  r.innerText = "Recording… 🎙️";
 }
 
 function stopRec() {
   document.getElementById("message").innerHTML = `
-    oh that button didn’t do anything I just wanted to get you slightly flustered.<br><br>
-    Anyway please write your name if you agree to be my valentine<br><br>
-    <input id="nameInput" placeholder="Your name"><br><br>
-    <button id="yes" onclick="fakeUpload()">Submit</button>
+    oh that button didn’t do anything I just wanted to get you slightly flustered. 😘<br><br>
+    Anyway please write your name if you agree to be my valentine 💌<br><br>
+    <input id="nameInput" placeholder="Your name 💖"><br><br>
+    <button id="yes" onclick="fakeUpload()">Submit ✨</button>
   `;
 }
 
@@ -183,10 +243,10 @@ function fakeUpload() {
 function finalMessage() {
   document.getElementById("message").innerHTML = `
     Oh… that button didn’t do anything either 😌<br><br>
-    if you made it this far, that means you’re a good girl.<br>
+    if you made it this far, that means you’re a good girl. 🌟<br>
    <br> send me a message that says.<br>
-    “I’ve been such a good girl daddy” and I’ll send you another early Valentine’s Day gift.<br>
-    As a thank you for being my Valentine
+    “I’ve been such a good girl daddy” and I’ll send you another early Valentine’s Day gift. 🎁<br>
+    As a thank you for being my Valentine 💕
   `;
   heartExplosion();
 }
@@ -197,7 +257,7 @@ function heartExplosion() {
     h.className = "heart";
     h.innerText = "💖";
     h.style.left = Math.random() * window.innerWidth + "px";
-    h.style.bottom = "-20px";
+    h.style.bottom = "0px";
     document.body.appendChild(h);
     setTimeout(() => h.remove(), 4000);
   }
@@ -206,3 +266,4 @@ function heartExplosion() {
 
 </body>
 </html>
+``` = "
