@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine?</title>
+<style>
+  body {
+    margin: 0;
+    background: radial-gradient(circle at top, #ffb3c6, #ff5d8f);
+    font-family: Arial, sans-serif;
+    text-align: center;
+    overflow: hidden;
+    color: #7a003c;
+  }
+
+  h1 {
+    font-size: 3em;
+    margin-top: 80px;
+  }
+
+  button {
+    font-size: 1.4em;
+    padding: 15px 30px;
+    margin: 15px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+  }
+
+  #good, #yes {
+    background: #ff2f75;
+    color: white;
+  }
+
+  #bad, #no {
+    background: #444;
+    color: white;
+    position: relative; /* Changed for bad button, but can adjust */
+  }
+
+  #no {
+    position: absolute;
+  }
+
+  #record {
+    background: #d60000;
+    color: white;
+  }
+
+  .recording {
+    animation: pulse 1s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(214,0,0,0.7); }
+    70% { box-shadow: 0 0 0 25px rgba(214,0,0,0); }
+    100% { box-shadow: 0 0 0 0 rgba(214,0,0,0); }
+  }
+
+  #message {
+    font-size: 1.7em;
+    margin-top: 30px;
+    padding: 0 20px;
+  }
+
+  input {
+    font-size: 1.2em;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+  }
+
+  #progress {
+    width: 70%;
+    height: 20px;
+    background: #ffd1e1;
+    border-radius: 10px;
+    margin: 20px auto;
+    overflow: hidden;
+  }
+
+  #bar {
+    height: 100%;
+    width: 0%;
+    background: #ff2f75;
+  }
+
+  .heart {
+    position: absolute;
+    color: #ff2f75;
+    font-size: 24px;
+    animation: float 4s linear forwards;
+  }
+
+  @keyframes float {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-800px); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<h1 id="title">Have you been a good girl or a bad girl?</h1>
+
+<div id="goodBadButtons">
+  <button id="good" onclick="goodClicked()">Good girl</button>
+  <button id="bad" onclick="badClicked()">Bad girl</button>
+</div>
+
+<div id="buttons" style="display: none;">
+  <button id="yes" onclick="yesClicked()">Yes</button>
+  <button id="no" onmouseover="moveNo()">No</button>
+</div>
+
+<div id="message"></div>
+
+<script>
+function goodClicked() {
+  document.getElementById("title").innerHTML = "Will you be my Valentine? 💘";
+  document.getElementById("goodBadButtons").style.display = "none";
+  document.getElementById("buttons").style.display = "block";
+  document.getElementById("message").innerHTML = "";
+}
+
+function badClicked() {
+  document.getElementById("message").innerHTML = "Access denied. Try again.";
+}
+
+function moveNo() {
+  const no = document.getElementById("no");
+  no.style.left = Math.random() * (window.innerWidth - 100) + "px";
+  no.style.top = Math.random() * (window.innerHeight - 100) + "px";
+}
+
+function yesClicked() {
+  document.getElementById("buttons").style.display = "none";
+  document.getElementById("message").innerHTML = `
+    Ok 💕<br><br>
+    Hold the button and say:<br>
+    <strong>Yes Jon, I will be your Valentine</strong><br><br>
+    <button id="record"
+      onmousedown="startRec()"
+      onmouseup="stopRec()"
+      ontouchstart="startRec()"
+      ontouchend="stopRec()">
+      🎤 Hold to Record
+    </button>
+  `;
+}
+
+function startRec() {
+  const r = document.getElementById("record");
+  r.classList.add("recording");
+  r.innerText = "Recording…";
+}
+
+function stopRec() {
+  document.getElementById("message").innerHTML = `
+    oh that button didn’t do anything I just wanted to get you slightly flustered.<br><br>
+    Anyway please write your name if you agree to be my valentine<br><br>
+    <input id="nameInput" placeholder="Your name"><br><br>
+    <button id="yes" onclick="fakeUpload()">Submit</button>
+  `;
+}
+
+function fakeUpload() {
+  document.getElementById("message").innerHTML = `
+    Uploading agreement… 💌
+    <div id="progress"><div id="bar"></div></div>
+  `;
+  let width = 0;
+  const bar = document.getElementById("bar");
+  const interval = setInterval(() => {
+    width += 5;
+    bar.style.width = width + "%";
+    if (width >= 100) {
+      clearInterval(interval);
+      finalMessage();
+    }
+  }, 100);
+}
+
+function finalMessage() {
+  document.getElementById("message").innerHTML = `
+    Oh… that button didn’t do anything either 😌<br><br>
+    if you made it this far, that means you’re a good girl.<br>
+   <br> send me a message that says.<br>
+    “I’ve been such a good girl daddy” and I’ll send you another early Valentine’s Day gift.<br>
+    As a thank you for being my Valentine
+  `;
+  heartExplosion();
+}
+
+function heartExplosion() {
+  for (let i = 0; i < 40; i++) {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerText = "💖";
+    h.style.left = Math.random() * window.innerWidth + "px";
+    h.style.bottom = "-20px";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 4000);
+  }
+}
+</script>
+
+</body>
+</html>
